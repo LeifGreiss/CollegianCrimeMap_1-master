@@ -1,0 +1,211 @@
+Initial working map or almost working map.
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map_canvas { height: 100% }
+    </style>
+    </head>
+    <body>
+    <div id="map_canvas" style="width:100%; height:100%"></div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript">
+      var map;
+      function initialize() {
+        var mapOptions = {
+          center: new google.maps.LatLng(40.8039941, -77.863459),
+          zoom: 7,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map_canvas"),
+            mapOptions);
+      }
+        $(document).ready(function() {
+        $.getJSON("crime_maps_test.json", function(json1) {
+          $.each(json1, function(key, data) {
+            var latLng = new google.maps.LatLng(data.lat, data.long); 
+            // Creating a marker and putting it on the map
+            var marker = new google.maps.Marker({
+                position: latLng,
+                title: data.title
+            });
+            marker.setMap(map);
+          });
+        });
+      });
+    </script>
+    <!---<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>  --->  
+  <!---</head>--->
+  <!---<body>
+    
+    <script type="text/javascript"
+      $(document).ready(function() {
+        $.getJSON("crime_maps_test.json", function(json1) {
+          $.each(json1, function(key, data) {
+            var latLng = new google.maps.LatLng(data.lat, data.long); 
+            // Creating a marker and putting it on the map
+            var marker = new google.maps.Marker({
+                position: latLng,
+                title: data.title
+            });
+            marker.setMap(map);
+          });
+        });
+      });
+    </script>-->
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAK-sn_f8TKF5YErwICZUPqvSvmdv3f8fA&callback=initialize"></script>
+  </body>
+</html>
+
+Working map.
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+    html { height: 100% }
+    body { height: 100%; margin: 0; padding: 0 }
+    #map_canvas { 
+          height: 500px;
+          width 100%}
+    </style>
+    </head>
+    <body>
+    <div id="map_canvas" style="width:100%; height:100%"></div>
+    <script type="text/javascript" src="https://jawj.github.io/OverlappingMarkerSpiderfier/bin/oms.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript">
+      var map 
+        function initialize() {
+        map = new google.maps.Map(document.getElementById("map_canvas"), {
+          center: new google.maps.LatLng(40.8039941, -77.863459),
+          zoom: 14,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        //This is to create an info window
+       /* var iw = new google.maps.InfoWindow();
+        var oms = new OverlappingMarkerSpiderfier(map, { 
+            markersWontMove: true, 
+            markersWontHide: true,
+            basicFormatEvents: true
+            });*/
+        //get JSON data
+        //for (var i = 0, len =window.MapData.length; i < len; i ++) {
+        //(function() {
+        $(document).ready(function() {
+        $.getJSON("crime_maps_test.json", function(json1) {
+          $.each(json1, function(key, data) {
+            var latLng = new google.maps.LatLng(data.lat, data.lng); 
+            // Creating a marker and putting it on the map
+            var marker = new google.maps.Marker({
+                position: latLng,
+                title: data.location
+            });
+            var marker Cluster = new MarkerClusterer(map, marker,
+                {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+            marker.setMap(map);
+        setTimeout(function (){marker.setMap(map);}, 1000); 
+          });
+        });
+      });
+            //})
+//}
+}
+    </script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+    </script>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAK-sn_f8TKF5YErwICZUPqvSvmdv3f8fA&callback=initialize"></script>
+  </body>
+</html>
+
+Working map with Info Windows one at a time
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+    html { height: 100% }
+    body { height: 100%; margin: 0; padding: 0 }
+    #map_canvas { 
+          height: 500px;
+          width 100%}
+    </style>
+    </head>
+    <body>
+    <div id="map_canvas" style="width:100%; height:100%"></div>
+    <script type="text/javascript" src="https://jawj.github.io/OverlappingMarkerSpiderfier/bin/oms.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript">
+      var map 
+        function initialize() {
+        map = new google.maps.Map(document.getElementById("map_canvas"), {
+          center: new google.maps.LatLng(40.8039941, -77.863459),
+          zoom: 14,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        var selectedInfoWindow
+        //This is to create an info window
+       /* var iw = new google.maps.InfoWindow();
+        var oms = new OverlappingMarkerSpiderfier(map, { 
+            markersWontMove: true, 
+            markersWontHide: true,
+            basicFormatEvents: true
+            });*/
+        //get JSON data
+        //for (var i = 0, len =window.MapData.length; i < len; i ++) {
+        //(function() {
+        $(document).ready(function() {
+        $.getJSON("crime_maps_test.json", function(json1) {
+          $.each(json1, function(key, data) {
+            var infoWindow = new google.maps.InfoWindow;
+            var latLng = new google.maps.LatLng(data.lat, data.lng); 
+            // Creating a marker and putting it on the map
+            var marker = new google.maps.Marker({
+                position: latLng,
+                title: data.location
+            });
+            marker.setMap(map);
+        setTimeout(function (){marker.setMap(map);}, 1000); 
+        google.maps.event.addListener(marker, 'click', (function(marker, data) {
+            return function() {
+                var Date = data.Occurred;
+                var Location = data.location;
+                var Offense = data.offenses;
+                var Nature = data.nature_of_incident;
+                var Latitude = data.lat;
+                var Longitude = data.lng;
+                var iwContent = "<div style = 'width:200px;min-height:40px'><h3>" + Location + "</h3>" + "<p>" + "Date of Occurrence: "+ Date + "</p>" + "<p>" + "Offense(s): "+ Offense + "</p>"+ "<p>" + "Nature of Incident: "+ Nature + "</p>" + "</div>";
+                //Inserting the div for the infowindow straight into the setContent parenthesis was not working so I created a variable to house it.
+                infoWindow.setContent(iwContent);
+                if (selectedInfoWindow != null && selectedInfoWindow.getMap() != null) {
+            selectedInfoWindow.close();
+            //If the clicked window is the selected window, deselect it and return
+            if (selectedInfoWindow == infoWindow) {
+                selectedInfoWindow = null;
+                return;
+            }
+        }
+        //If arrive here, that mean you should open the new info window 
+        //because is different from the selected
+        selectedInfoWindow = infoWindow;
+        selectedInfoWindow.open(map, marker);
+                //infoWindow.open(map, this);
+             
+            }
+            })(marker, data));
+          });
+        });
+      });
+            //})
+//}
+}
+    </script>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAK-sn_f8TKF5YErwICZUPqvSvmdv3f8fA&callback=initialize"></script>
+  </body>
+</html>

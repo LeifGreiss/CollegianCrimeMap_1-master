@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Daily Collegian Penn State Crimes Map</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+    html { height: 100% }
+    body { height: 100%; width: margin: 0; padding: 0 }
+    #map_canvas { 
+          height: 500px;
+          width 95%}
+    </style>
+    </head>
+    <body>
+    <h3> Daily Collegian Crime Map</h3>
+    <div id="map_canvas" style="width:100%; height:100%"></div>
+   <script src= "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    <script type="text/javascript" src="https://jawj.github.io/OverlappingMarkerSpiderfier/bin/oms.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript">
+      var map 
+      var markers = [];
+        function initialize() {
+        map = new google.maps.Map(document.getElementById("map_canvas"), {
+          center: new google.maps.LatLng(40.8039941, -77.863459),
+          zoom: 13,
+          mapTypeId: google.maps.MapTypeId.ROADMAP});
+        var oms = new OverlappingMarkerSpiderfier(map, { 
+            markersWontMove: true, 
+            markersWontHide: true,
+            basicFormatEvents: true
+        });
+        //Attempted to draw markers however it did not work. May come back to this later.
+       /*oms.addListener('format', function(marker, status) {
+        var iconURL = status == OverlappingMarkerSpiderfier.markerStatus.SPIDERFIED ? 'marker-highlight.svg' :
+          status == OverlappingMarkerSpiderfier.markerStatus.SPIDERFIABLE ? 'marker-plus.svg' :
+          status == OverlappingMarkerSpiderfier.markerStatus.UNSPIDERFIABLE ? 'marker.svg' : 
+          null;
+        var iconSize = new google.maps.Size(23, 32);
+        marker.setIcon({
+          url: iconURL,
+          scaledSize: iconSize  // makes SVG icons work in IE
+        });
+      });*/
+        var selectedInfoWindow
+        //get JSON data
+        $(document).ready(function() {
+        $.getJSON("crime_maps_test.json", function(json1) {
+          $.each(json1, function(key, data) {
+            var infoWindow = new google.maps.InfoWindow;
+            var latLng = new google.maps.LatLng(data.lat, data.lng); 
+            // Creating a marker and putting it on the map
+            var marker = new google.maps.Marker({
+                position: latLng,
+                title: data.location
+            });
+            //marker.setMap(map);
+            //Set timeout so map loads then markers load
+        setTimeout(function (){marker.setMap(map);}, 1000); 
+        google.maps.event.addListener(marker, 'spider_click', (function(marker, data) {
+            return function() {
+                var Date = data.Occurred;
+                var Incident = data.Incident;
+                var Location = data.location;
+                var Reported = data.reported;
+                var Offense = data.offenses;
+                var Nature = data.nature_of_incident;
+                var iwContent = "<div style = 'width:200px;min-height:40px'><h3>" + Location + "</h3>" + "<p>" + "Incident Number: " + Incident + "</p>" + "<p>" + "Date of Occurrence: "+ Date + "</p>" + "<p>"+ "Date Reported: " + Reported + "</p>" + "<p>" + "Offense(s): "+ Offense + "</p>"+ "<p>" + "Nature of Incident: "+ Nature + "</p>" + "</div>";
+                //Inserting the div for the infowindow straight into the setContent parenthesis was not working so I created a variable to house it.
+                infoWindow.setContent(iwContent);
+                if (selectedInfoWindow != null && selectedInfoWindow.getMap() != null) {
+            selectedInfoWindow.close();
+            //If the clicked window is the selected window, deselect it and return
+            if (selectedInfoWindow == infoWindow) {
+                selectedInfoWindow = null;
+                return;
+            }
+        }
+        //If arrive here, that mean you should open the new info window 
+        //because is different from the selected
+        selectedInfoWindow = infoWindow;
+        selectedInfoWindow.open(map, marker);
+                //infoWindow.open(map, this);
+            }
+            })(marker, data));
+            markers.push(marker);
+            oms.addMarker(marker);
+          });
+
+         var markerCluster = new MarkerClusterer(map, markers,
+            {maxZoom: 16,
+             gridSize: 50,
+            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'}); 
+        });
+      });
+    window.map = map;
+    window.oms = oms;
+    //google.maps.event.addDomListener(window, "load", initialize);
+}
+    
+    </script>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAK-sn_f8TKF5YErwICZUPqvSvmdv3f8fA&callback=initialize"></script>
+  </body>
+</html>
