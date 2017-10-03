@@ -5,7 +5,9 @@ This is a google Javascript API Map displaying the crimes taken from Penn State'
 
 People: 
 Leif Greiss: Map programming and implmentation, web scraping, data acquisition, data processing and formatting.
-Frank Esposito: PDF scraping, data acquisition, data processing and formatting 
+Frank Esposito: Data acquisition
 Jimmy Madden: PDF scanning of physical copies of Daily Logs
+
+The project is unfinished and is using test data. However, a live version of the map can be viewed here https://leifgreiss.github.io/CollegianCrimeMap_1-master/
 
 License: Software released under the MIT License.
