@@ -8,6 +8,6 @@ Leif Greiss: Map programming and implmentation, web scraping, data acquisition, 
 Frank Esposito: Data acquisition
 Jimmy Madden: PDF scanning of physical copies of Daily Logs
 
-The project is unfinished and is using test data. However, a live version of the map can be viewed here https://leifgreiss.github.io/CollegianCrimeMap_1-master/
+The project is unfinished and is using test data to display the markers. However, a live version of the map can be viewed here https://leifgreiss.github.io/CollegianCrimeMap_1-master/
 
 License: Software released under the MIT License.
